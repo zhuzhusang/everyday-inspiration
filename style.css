@@ -4,11 +4,13 @@
     --text-color: #333;
     --border-color: #ddd;
 }
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: var(--bg-color);
@@ -17,6 +19,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 h1 {
     text-align: center;
     padding: 1rem;
@@ -24,14 +27,17 @@ h1 {
     background: var(--card-bg);
     border-bottom: 1px solid var(--border-color);
 }
+
 .dashboard-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 10px;
-    padding: 10px;
-    height: calc(100vh - 60px);
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 70vh 1fr;
+    /* Top row takes 70% of viewport height, bottom row takes remainder */
+    gap: 15px;
+    padding: 15px;
+    height: 100vh;
 }
+
 .dashboard-item {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -41,6 +47,22 @@ h1 {
     display: flex;
     flex-direction: column;
 }
+
+/* Featured sites (Refero, LBD) take 50% width each (3 columns) */
+.dashboard-item.featured-site {
+    grid-column: span 3;
+    /* Ensure they stay in the top row if possible, or just flow naturally */
+}
+
+/* Minimized sites take 33% width each (2 columns) */
+.dashboard-item.minimized-view {
+    grid-column: span 2;
+    background: white;
+    /* Clean background for cards */
+    border-top: 4px solid #007bff;
+    /* Accent to distinguish them */
+}
+
 .item-header {
     padding: 8px 12px;
     background: #f8f9fa;
@@ -51,28 +73,99 @@ h1 {
     font-size: 0.9rem;
     font-weight: 500;
 }
+
 .item-header a {
     text-decoration: none;
     color: #007bff;
     font-size: 0.8rem;
 }
+
 .item-header a:hover {
     text-decoration: underline;
 }
+
 iframe {
     width: 100%;
     height: 100%;
     border: none;
     background: #fff;
+    flex: 1;
+    /* Ensure iframe takes remaining space */
 }
-@media (max-width: 768px) {
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
-        grid-template-rows: repeat(4, 1fr);
+        grid-template-rows: auto;
         height: auto;
-        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
     }
-    .dashboard-item {
-        height: 400px;
+
+    .dashboard-item.featured-site {
+        height: 500px;
+        /* Good height for browsing on tablet/mobile */
+        width: 100%;
     }
+
+    .dashboard-item.minimized-view {
+        height: auto;
+        width: 100%;
+        min-height: 200px;
+    }
+}
+
+/* Minimized View Styling */
+.minimized-view {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.minimized-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.site-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.site-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.site-description {
+    color: #6c757d;
+    font-size: 0.9rem;
+    max-width: 100%;
+}
+
+.visit-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+    font-size: 0.9rem;
+}
+
+.visit-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 123, 255, 0.3);
 }
